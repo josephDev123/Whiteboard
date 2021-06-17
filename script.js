@@ -13,6 +13,7 @@ let trash_el = document.getElementById('trash');
 let file_el = document.getElementById('file');
 let download_el = document.getElementById('download');
 let active = '';
+// var activeArr = [];
 let working ='';
 let initial_x;
 let initial_y;
@@ -30,7 +31,7 @@ ctx.styleStroke = pencil_color;
 let eraser_width = eraser_width_el.value;
 ctx.lineWidth= eraser_width;
 
-//change color 
+//change pencil color 
 pencil_color_el.oninput = (e)=>{
     ctx.styleStroke= e.target.value;
 }
@@ -59,19 +60,18 @@ function activePencil(e){
     if(active !='' && active === 'eraser'){
         eraser_el.classList.remove('active');
     }
-  
     active = 'pencil';
-    if (active ==='pencil') {
-        pencil_dropdown_el.classList.add('active'); 
-     
-    }else{
+    pencil_dropdown_el.classList.add('active'); 
+    if (active !='pencil') {
         active='';
     }
-
+    
     if (active ==='pencil') {
         board.addEventListener('mousedown', initialXandY);
- 
+    }else{
+        
     }
+  
 
 }
 
