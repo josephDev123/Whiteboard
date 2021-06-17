@@ -52,43 +52,43 @@ pencil_dropdown_el.addEventListener('click', activePencil)
 //clicking on eraser
 eraser_el.addEventListener('click', activeEraser)
 
-
-
-
 // active pencil function
 function activePencil(e){
     if(active !='' && active === 'eraser'){
         eraser_el.classList.remove('active');
+        active = '';
+        working =false;
     }
-    active = 'pencil';
-    pencil_dropdown_el.classList.add('active'); 
-    if (active !='pencil') {
+  working =true
+    if (working === true) {
+        pencil_dropdown_el.classList.add('active'); 
+        active = 'pencil';
+    }else {
+        pencil_dropdown_el.classList.remove('active');
         active='';
     }
-    
-    if (active ==='pencil') {
-        board.addEventListener('mousedown', initialXandY);
-    }else{
-        
-    }
-  
-
 }
 
 // active eraser function
 function activeEraser(e){
     if(active !=''&& active === 'pencil'){
         pencil_dropdown_el.classList.remove('active');
+        active ='';
+        working =false;
     }
-   
-    active ='eraser';
-    if(active === 'eraser'){
+    working =true;
+
+    if(working ==true){
+        active ='eraser';
         eraser_el.classList.add('active'); 
     }else{
+        eraser_el.classList.remove('active'); 
         active ='';
     }
 }
 
+
+board.addEventListener('mousedown', initialXandY);
 //TO GET THE INITIAL CO-ORDINATE X,Y VALUES
 function initialXandY(e){
     let x = e.clientX;
