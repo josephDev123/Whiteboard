@@ -13,6 +13,7 @@ let trash_el = document.getElementById('trash');
 let file_el = document.getElementById('file');
 let download_el = document.getElementById('download');
 let active = '';
+let flag =0
 // var activeArr = [];
 let working ='';
 let initial_x;
@@ -88,11 +89,33 @@ function activeEraser(e){
 }
 
 
-board.addEventListener('mousedown', initialXandY);
-//TO GET THE INITIAL CO-ORDINATE X,Y VALUES
+    board.addEventListener('mousedown', initialXandY);
+    board.addEventListener('mousemove', lineto);
+    board.addEventListener('mouseup', stopDrawing);
+
 function initialXandY(e){
-    let x = e.clientX;
-    let y = e.clientY; 
-    console.log(x, y);
+    if (pencil_dropdown_el.classList.contains('active')) {
+        let x = e.clientX;
+        let y = e.clientY; 
+        ctx.moveTo(x,y);
+        console.log(x,y);
+    }
 }
 
+function lineto(e){
+    if (pencil_dropdown_el.classList.contains('active')) {
+        let domRect = board.getBoundingClientRect();
+    let final_x = e.clientX -domRect;
+    let final_y = e.clientY -domRect;
+    // final_x =x;
+    // final_y =y;
+    ctx.lineTo(final_x, final_y);
+    ctx.stroke()
+    console.log(final_x,final_y);
+    }
+}
+
+function stopDrawing(){
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0,0);
+}
