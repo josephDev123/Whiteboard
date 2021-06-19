@@ -1,6 +1,7 @@
 'use strict';
 let board = document.getElementById('canvas');
 let ctx = board.getContext('2d');
+
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
 
@@ -13,9 +14,8 @@ let trash_el = document.getElementById('trash');
 let file_el = document.getElementById('file');
 let download_el = document.getElementById('download');
 let active = '';
-let flag =0
-// var activeArr = [];
-let working ='';
+let isdrawing = false;
+let working =false;
 let initial_x;
 let initial_y;
 
@@ -91,31 +91,59 @@ function activeEraser(e){
 
     board.addEventListener('mousedown', initialXandY);
     board.addEventListener('mousemove', lineto);
-    board.addEventListener('mouseup', stopDrawing);
+    window.addEventListener('mouseup', stopDrawing);
 
 function initialXandY(e){
     if (pencil_dropdown_el.classList.contains('active')) {
-        let x = e.clientX;
-        let y = e.clientY; 
-        ctx.moveTo(x,y);
-        console.log(x,y);
+       isdrawing =true;
+       initial_x = e.clientX;
+       initial_y = e.clientY; 
+        
+        // let x = e.clientX;
+        // let y = e.clientY; 
+        // ctx.beginPath();
+        // ctx.moveTo(x,y);
+        // console.log(x,y);
     }
 }
 
 function lineto(e){
     if (pencil_dropdown_el.classList.contains('active')) {
-        let domRect = board.getBoundingClientRect();
-    let final_x = e.clientX -domRect;
-    let final_y = e.clientY -domRect;
-    // final_x =x;
-    // final_y =y;
-    ctx.lineTo(final_x, final_y);
-    ctx.stroke()
-    console.log(final_x,final_y);
+        if(isdrawing==true){
+          drawingLine(initial_x, initial_y, e.clientX, e.clientY);
+          initial_x = e.clientX;
+          initial_y = e.clientY;
+        }
+    // let final_x = e.clientX;
+    // let final_y = e.clientY;
+    // ctx.lineTo(final_x, final_y);
+    // ctx.stroke()
+    // console.log(final_x,final_y);
     }
 }
 
-function stopDrawing(){
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0,0);
+function stopDrawing(e){
+    // if (pencil_dropdown_el.classList.contains('active')) {
+    // ctx.styleStroke = '';
+    // ctx.moveTo(0,0);
+    // ctx.lineTo(0,0);
+    // working = false;
+    // }
+    if(isdrawing==true){
+        drawingLine(initial_x, initial_y, e.clientX, e.clientY);
+        initial_x =0;
+        initial_y =0;
+        isdrawing =false;
+      }
+
+}
+
+function  drawingLine(x, y, X, Y){
+    ctx.beginPath();
+//   context.strokeStyle = 'black';
+//   context.lineWidth = 1;
+  ctx.moveTo(x, y);
+  ctx.lineTo(X, Y);
+  ctx.stroke();
+  ctx.closePath();
 }
