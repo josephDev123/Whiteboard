@@ -18,6 +18,9 @@ let isdrawing = false;
 let working =false;
 let initial_x;
 let initial_y;
+let eraserInitial_x;
+let eraserInitial_y;
+let isErasing = false;
 
 board.width = window.innerWidth - 10;
 board.height = window.innerHeight - 10;
@@ -34,7 +37,9 @@ ctx.lineWidth= eraser_width;
 
 //change pencil color 
 pencil_color_el.oninput = (e)=>{
-    ctx.styleStroke= e.target.value;
+    pencil_color = e.target.value;
+    ctx.strokeStyle =  e.target.value;
+    console.log(pencil_color);
 }
 
 //change pencil width 
@@ -91,46 +96,31 @@ function activeEraser(e){
 
     board.addEventListener('mousedown', initialXandY);
     board.addEventListener('mousemove', lineto);
-    window.addEventListener('mouseup', stopDrawing);
+    board.addEventListener('mouseup', stopDrawing);
 
 function initialXandY(e){
     if (pencil_dropdown_el.classList.contains('active')) {
        isdrawing =true;
-       initial_x = e.clientX;
-       initial_y = e.clientY; 
-        
-        // let x = e.clientX;
-        // let y = e.clientY; 
-        // ctx.beginPath();
-        // ctx.moveTo(x,y);
-        // console.log(x,y);
+       initial_x = e.offsetX;
+       initial_y = e.offsetY; 
+       
+
     }
 }
 
 function lineto(e){
     if (pencil_dropdown_el.classList.contains('active')) {
         if(isdrawing==true){
-          drawingLine(initial_x, initial_y, e.clientX, e.clientY);
-          initial_x = e.clientX;
-          initial_y = e.clientY;
+          drawingLine(initial_x, initial_y, e.offsetX, e.offsetY);
+          initial_x = e.offsetX;
+          initial_y = e.offsetY;
         }
-    // let final_x = e.clientX;
-    // let final_y = e.clientY;
-    // ctx.lineTo(final_x, final_y);
-    // ctx.stroke()
-    // console.log(final_x,final_y);
     }
 }
 
 function stopDrawing(e){
-    // if (pencil_dropdown_el.classList.contains('active')) {
-    // ctx.styleStroke = '';
-    // ctx.moveTo(0,0);
-    // ctx.lineTo(0,0);
-    // working = false;
-    // }
     if(isdrawing==true){
-        drawingLine(initial_x, initial_y, e.clientX, e.clientY);
+        drawingLine(initial_x, initial_y, e.offsetX, e.offsetY);
         initial_x =0;
         initial_y =0;
         isdrawing =false;
@@ -140,10 +130,60 @@ function stopDrawing(e){
 
 function  drawingLine(x, y, X, Y){
     ctx.beginPath();
-//   context.strokeStyle = 'black';
-//   context.lineWidth = 1;
-  ctx.moveTo(x, y);
-  ctx.lineTo(X, Y);
-  ctx.stroke();
-  ctx.closePath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(X, Y);
+    ctx.stroke();
+    ctx.closePath();
+ }
+
+//  eraser_el.onclick =()=>{
+//     if (eraser_el.classList.contains('active')) {
+       
+//     }
+//  }
+
+
+//erasing the drawing on the canvas content
+board.addEventListener('mousedown', initialEraserXandY);
+board.addEventListener('mousemove', EraserLineTo);
+board.addEventListener('mouseup', stopErase);
+
+function initialEraserXandY(e){
+    if (eraser_el.classList.contains('active')) {
+        isErasing =true;
+        eraserInitial_x = e.offsetX;
+        eraserInitial_y = e.offsetY;
+        
+    }
+}
+
+function EraserLineTo(e){
+    if (eraser_el.classList.contains('active')) {
+    if (isErasing ==true) {
+        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY);
+        eraserInitial_x = e.offsetX;
+        eraserInitial_y = e.offsetY;
+    }
+}
+}
+
+function stopErase(e){
+    if (eraser_el.classList.contains('active')) {
+    if (isErasing ==true) {
+        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY, 'white');
+        // eraserInitial_x = 0;
+        // eraserInitial_y = 0;
+        isErasing =true;
+    }
+}
+}
+
+function eraseCanvasContent(x1,y1,x2,y2, color){
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+    ctx.closePath();
+
 }
