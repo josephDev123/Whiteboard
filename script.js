@@ -28,28 +28,30 @@ board.height = window.innerHeight - 10;
 //default width and color of pencil
 let pencil_width = pencil_width_el.value; 
 let pencil_color = pencil_color_el.value;
-ctx.lineWidth = pencil_width;
-ctx.styleStroke = pencil_color;
+// ctx.lineWidth = pencil_width;
+// ctx.strokeStyle = pencil_color;
 
 //default width of eraser
 let eraser_width = eraser_width_el.value;
-ctx.lineWidth= eraser_width;
+// ctx.lineWidth= eraser_width;
 
 //change pencil color 
 pencil_color_el.oninput = (e)=>{
     pencil_color = e.target.value;
-    ctx.strokeStyle =  e.target.value;
-    console.log(pencil_color);
+    // ctx.strokeStyle =  e.target.value;
+    // console.log(pencil_color);
 }
 
 //change pencil width 
 pencil_width_el.oninput = (e)=>{
-    ctx.lineWidth= e.target.value; 
+    pencil_width =e.target.value
+    // ctx.lineWidth= pencil_width; 
 }
 
 //change eraser width
 eraser_width_el.oninput = (e)=>{
-    ctx.lineWidth= e.target.value;  
+    eraser_width = e.target.value;
+    // ctx.lineWidth=eraser_width ;  
 }
 
 //click on pencil
@@ -111,7 +113,7 @@ function initialXandY(e){
 function lineto(e){
     if (pencil_dropdown_el.classList.contains('active')) {
         if(isdrawing==true){
-          drawingLine(initial_x, initial_y, e.offsetX, e.offsetY);
+          drawingLine(initial_x, initial_y, e.offsetX, e.offsetY, pencil_color, pencil_width);
           initial_x = e.offsetX;
           initial_y = e.offsetY;
         }
@@ -120,7 +122,7 @@ function lineto(e){
 
 function stopDrawing(e){
     if(isdrawing==true){
-        drawingLine(initial_x, initial_y, e.offsetX, e.offsetY);
+        drawingLine(initial_x, initial_y, e.offsetX, e.offsetY, pencil_color, pencil_width);
         initial_x =0;
         initial_y =0;
         isdrawing =false;
@@ -128,19 +130,15 @@ function stopDrawing(e){
 
 }
 
-function  drawingLine(x, y, X, Y){
+function  drawingLine(x, y, X, Y, color, width){
     ctx.beginPath();
     ctx.moveTo(x, y);
     ctx.lineTo(X, Y);
+    ctx.strokeStyle =color;
+    ctx.lineWidth = width;
     ctx.stroke();
     ctx.closePath();
  }
-
-//  eraser_el.onclick =()=>{
-//     if (eraser_el.classList.contains('active')) {
-       
-//     }
-//  }
 
 
 //erasing the drawing on the canvas content
@@ -159,8 +157,8 @@ function initialEraserXandY(e){
 
 function EraserLineTo(e){
     if (eraser_el.classList.contains('active')) {
-    if (isErasing ==true) {
-        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY);
+    if (isErasing ===true) {
+        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY,eraser_width);
         eraserInitial_x = e.offsetX;
         eraserInitial_y = e.offsetY;
     }
@@ -170,19 +168,20 @@ function EraserLineTo(e){
 function stopErase(e){
     if (eraser_el.classList.contains('active')) {
     if (isErasing ==true) {
-        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY, 'white');
+        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY, 'white', eraser_width);
         // eraserInitial_x = 0;
         // eraserInitial_y = 0;
-        isErasing =true;
+        isErasing =false;
     }
 }
 }
 
-function eraseCanvasContent(x1,y1,x2,y2, color){
+function eraseCanvasContent(x1,y1,x2,y2, color, eraserWidth){
     ctx.beginPath();
     ctx.strokeStyle = color;
     ctx.moveTo(x1,y1);
     ctx.lineTo(x2,y2);
+    ctx.lineWidth =eraserWidth;
     ctx.stroke();
     ctx.closePath();
 
