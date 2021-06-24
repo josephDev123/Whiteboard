@@ -3,5 +3,9 @@
 }
 
 .active{
-    color: blue;
+    color: blue !important;
+}
+
+.active_delete{
+    color: red !important;
 }

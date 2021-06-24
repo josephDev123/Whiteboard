@@ -1,7 +1,6 @@
 'use strict';
 let board = document.getElementById('canvas');
 let ctx = board.getContext('2d');
-
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
 
@@ -13,6 +12,7 @@ let eraser_width_el = document.getElementById('eraser_width');
 let trash_el = document.getElementById('trash');
 let file_el = document.getElementById('file');
 let download_el = document.getElementById('download');
+
 let active = '';
 let isdrawing = false;
 let working =false;
@@ -62,11 +62,14 @@ eraser_el.addEventListener('click', activeEraser)
 
 // active pencil function
 function activePencil(e){
-    if(active !='' && active === 'eraser'){
+    if(active !='' && active === 'eraser' || trash_el.firstElementChild.firstElementChild.classList.contains('active_delete')){
         eraser_el.classList.remove('active');
+        trash_el.firstElementChild.firstElementChild.classList.remove('active_delete')
         active = '';
         working =false;
     }
+
+
   working =true
     if (working === true) {
         pencil_dropdown_el.classList.add('active'); 
@@ -79,8 +82,9 @@ function activePencil(e){
 
 // active eraser function
 function activeEraser(e){
-    if(active !=''&& active === 'pencil'){
+    if(active !=''&& active === 'pencil' || trash_el.firstElementChild.firstElementChild.classList.contains('active_delete')){
         pencil_dropdown_el.classList.remove('active');
+        trash_el.firstElementChild.firstElementChild.classList.remove('active_delete')
         active ='';
         working =false;
     }
@@ -186,3 +190,17 @@ function eraseCanvasContent(x1,y1,x2,y2, color, eraserWidth){
     ctx.closePath();
 
 }
+
+
+
+//delete section
+trash_el.onclick = ()=>{
+    if (pencil_dropdown_el.classList.contains('active') || eraser_el.classList.contains('active')) {
+        pencil_dropdown_el.classList.remove('active');
+        eraser_el.classList.remove('active'); 
+    }
+    let trashchild = trash_el.firstElementChild.firstElementChild;
+        trashchild.classList.add('active_delete')
+        ctx.clearRect(0,0, board.width, board.height);
+}
+    
