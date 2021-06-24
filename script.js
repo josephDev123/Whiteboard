@@ -151,14 +151,14 @@ function initialEraserXandY(e){
         isErasing =true;
         eraserInitial_x = e.offsetX;
         eraserInitial_y = e.offsetY;
-        
+        ctx.strokeStyle = 'white';
     }
 }
 
 function EraserLineTo(e){
     if (eraser_el.classList.contains('active')) {
     if (isErasing ===true) {
-        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY,eraser_width);
+        eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY, 'white',eraser_width);
         eraserInitial_x = e.offsetX;
         eraserInitial_y = e.offsetY;
     }
