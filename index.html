@@ -42,6 +42,11 @@
               <li class="nav-item" id="trash">
                 <a class="nav-link" href="#"><i class="fa fa-trash-o fa-2x" aria-hidden="true"></i></a>
               </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="#" id=""><i class="fa fa-commenting fa-2x" aria-hidden="true"></i></a>
+              </li>
+
               <li class="nav-item" id="file">
                 <a class="nav-link" href="#" id=""><i class="fa fa-file fa-2x" aria-hidden="true"></i></a>
                 <input type="file" class="file" style="display: none;">
@@ -57,8 +62,9 @@
       
       <canvas id='canvas' style="border-style: 2px solid gray;position: relative;"></canvas>
 
-      <div class="content_container">
-        <div class="content_wrapper">
+      <div class="content_container" id="mydiv">
+        <div id="mydivheader">Click here to move</div>
+        <div class="content_wrapper" id="">
           <div class="max_min_wrapper">
             <span id="minimise">-</span> <span  id="maximise">+</span>
           </div>

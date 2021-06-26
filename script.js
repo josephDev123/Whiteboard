@@ -191,6 +191,18 @@ function eraseCanvasContent(x1,y1,x2,y2, color, eraserWidth){
 
 }
 
+//display textarea on clicking the textarea content btn in the navbar
+let textarea_btn = document.querySelector('.fa-commenting');
+textarea_btn.onclick =()=>{
+    if ( document.querySelector('#mydiv').style.display == 'none') {
+        textarea_btn.classList.add('active');
+        document.querySelector('#mydiv').style.display = 'block';
+    }else{
+        textarea_btn.classList.remove('active');
+        document.querySelector('#mydiv').style.display = 'none';
+    }
+    
+}
 
 
 //delete section
@@ -202,5 +214,51 @@ trash_el.onclick = ()=>{
     let trashchild = trash_el.firstElementChild.firstElementChild;
         trashchild.classList.add('active_delete')
         ctx.clearRect(0,0, board.width, board.height);
+}
+
+
+
+//Make the content text DIV element draggagle:
+dragElement(document.getElementById("mydiv"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    /* if present, the header is where you move the DIV from:*/
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    /* otherwise, move the DIV from anywhere inside the DIV:*/
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    // call a function whenever the cursor moves:
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    // calculate the new cursor position:
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    // set the element's new position:
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
 }
     

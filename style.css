@@ -4,7 +4,7 @@
 
 .content_container{
     position: absolute;
-    width: 400px;
+    max-width: 400px;
     padding: 10px;
     left: 50px;
     right: 50px;
@@ -21,6 +21,10 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+}
+
+#mydiv{
+    display: none;
 }
 
 
@@ -40,6 +44,8 @@
   background-color: red;
   border-radius: 50%;
   text-align: center;
+  border: none;
+  outline: none;
 }
 
 #maximise{
@@ -51,6 +57,8 @@
     background-color: blue;
     border-radius: 50%;
     text-align: center;
+    border: none;
+    outline: none;
   }
 
   #maximise, #minimise:hover{
@@ -68,7 +76,22 @@
     background-color: green;
     margin-top: 5px;
     color: white;
+    border: none;
 }
+
+#submit_content_btn:focus{
+    border: none;
+}
+
+#mydivheader {
+    padding: 10px;
+    cursor: move;
+    z-index: 10;
+    background-color: #2196F3;
+    color: #fff;
+    margin-bottom: 5px;
+  }
+
 
 
 
