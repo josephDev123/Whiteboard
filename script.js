@@ -12,6 +12,8 @@ let eraser_width_el = document.getElementById('eraser_width');
 let trash_el = document.getElementById('trash');
 let file_el = document.getElementById('file');
 let download_el = document.getElementById('download');
+let text_submit_btn = document.getElementById('submit_content_btn');
+
 
 let active = '';
 let isdrawing = false;
@@ -22,8 +24,8 @@ let eraserInitial_x;
 let eraserInitial_y;
 let isErasing = false;
 
-board.width = window.innerWidth - 10;
-board.height = window.innerHeight - 10;
+// board.width = window.innerWidth - 10;
+// board.height = window.innerHeight - 10;
 
 //default width and color of pencil
 let pencil_width = pencil_width_el.value; 
@@ -191,10 +193,10 @@ function eraseCanvasContent(x1,y1,x2,y2, color, eraserWidth){
 
 }
 
-//display textarea on clicking the textarea content btn in the navbar
+//display textarea on clicking the text icon in the navbar
 let textarea_btn = document.querySelector('.fa-commenting');
 textarea_btn.onclick =()=>{
-    if ( document.querySelector('#mydiv').style.display == 'none') {
+    if ( document.querySelector('#mydiv').style.display === 'none') {
         textarea_btn.classList.add('active');
         document.querySelector('#mydiv').style.display = 'block';
     }else{
@@ -205,7 +207,7 @@ textarea_btn.onclick =()=>{
 }
 
 
-//delete section
+//delete canvas content on clicking the trash icon 
 trash_el.onclick = ()=>{
     if (pencil_dropdown_el.classList.contains('active') || eraser_el.classList.contains('active')) {
         pencil_dropdown_el.classList.remove('active');
@@ -218,7 +220,7 @@ trash_el.onclick = ()=>{
 
 
 
-//Make the content text DIV element draggagle:
+//Make the content text element section draggagle:
 dragElement(document.getElementById("mydiv"));
 
 function dragElement(elmnt) {
@@ -261,4 +263,12 @@ function dragElement(elmnt) {
     document.onmousemove = null;
   }
 }
-    
+  
+
+//thandling the text area content
+text_submit_btn.onclick=()=>{
+    let content_el = document.getElementById('content').value;
+    ctx.font = "30px Arial";
+    ctx.fillText(content_el, 0, 20);
+
+}
