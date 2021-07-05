@@ -24,40 +24,38 @@ let eraserInitial_x;
 let eraserInitial_y;
 let isErasing = false;
 
-// board.width = window.innerWidth - 10;
-// board.height = window.innerHeight - 10;
+board.width = window.innerWidth - 10;
+board.height = window.innerHeight - 10;
 
 //default width and color of pencil
 let pencil_width = pencil_width_el.value; 
 let pencil_color = pencil_color_el.value;
-// ctx.lineWidth = pencil_width;
-// ctx.strokeStyle = pencil_color;
+
 
 //default width of eraser
 let eraser_width = eraser_width_el.value;
-// ctx.lineWidth= eraser_width;
+
 
 //change pencil color 
 pencil_color_el.oninput = (e)=>{
     pencil_color = e.target.value;
-    // ctx.strokeStyle =  e.target.value;
-    // console.log(pencil_color);
+    
 }
 
 //change pencil width 
 pencil_width_el.oninput = (e)=>{
     pencil_width =e.target.value
-    // ctx.lineWidth= pencil_width; 
+   
 }
 
 //change eraser width
 eraser_width_el.oninput = (e)=>{
     eraser_width = e.target.value;
-    // ctx.lineWidth=eraser_width ;  
+    
 }
 
 //click on pencil
-pencil_dropdown_el.addEventListener('click', activePencil)
+pencil_dropdown_el.addEventListener('click', activePencil);
 
 //clicking on eraser
 eraser_el.addEventListener('click', activeEraser)
@@ -66,13 +64,13 @@ eraser_el.addEventListener('click', activeEraser)
 function activePencil(e){
     if(active !='' && active === 'eraser' || trash_el.firstElementChild.firstElementChild.classList.contains('active_delete')){
         eraser_el.classList.remove('active');
-        trash_el.firstElementChild.firstElementChild.classList.remove('active_delete')
+        trash_el.firstElementChild.firstElementChild.classList.remove('active_delete');
         active = '';
         working =false;
     }
 
 
-  working =true
+     working =true
     if (working === true) {
         pencil_dropdown_el.classList.add('active'); 
         active = 'pencil';
@@ -101,7 +99,7 @@ function activeEraser(e){
     }
 }
 
-
+//drawing
     board.addEventListener('mousedown', initialXandY);
     board.addEventListener('mousemove', lineto);
     board.addEventListener('mouseup', stopDrawing);
@@ -111,8 +109,6 @@ function initialXandY(e){
        isdrawing =true;
        initial_x = e.offsetX;
        initial_y = e.offsetY; 
-       
-
     }
 }
 
@@ -175,8 +171,6 @@ function stopErase(e){
     if (eraser_el.classList.contains('active')) {
     if (isErasing ==true) {
         eraseCanvasContent(eraserInitial_x, eraserInitial_y, e.offsetX, e.offsetY, 'white', eraser_width);
-        // eraserInitial_x = 0;
-        // eraserInitial_y = 0;
         isErasing =false;
     }
 }
@@ -265,10 +259,56 @@ function dragElement(elmnt) {
 }
   
 
-//thandling the text area content
+//handling the text area content
 text_submit_btn.onclick=()=>{
     let content_el = document.getElementById('content').value;
-    ctx.font = "30px Arial";
-    ctx.fillText(content_el, 0, 20);
+    let word_lenght = ctx.measureText(content_el);
+    let word =[];
+    ctx.font = "25px Arial";
+    
+    // if(word_lenght > 50){
+    //     content_el
+    // }
+    // ctx.fillText(content_el, 0, 20);
 
+    fitText(ctx, content_el, 50, 30, 400, 300, 31);
+
+}
+
+function fitText(ctx, text, x, y, width, height, fontSize) {
+    ctx.font = 'normal ' + fontSize + 'px Times New Roman';
+    var metrics = ctx.measureText(text);
+    
+    if (metrics.width <= width) {
+        ctx.fillText(text, x, y + height - fontSize/4);
+        return;
+    }
+    
+    // Wrap text
+    var words = text.split(' '),
+        line = '',
+        lines = [];
+    
+    for(var n = 0; n < words.length; n++) {
+        var testLine = line + words[n] + ' ';
+        metrics = ctx.measureText(testLine);
+        if (metrics.width > width && n > 0) {
+            lines.push(line);
+            line = words[n] + ' ';  // next line
+        }
+        else {
+            line = testLine;
+        }
+    }
+    lines.push(line);
+    if (lines.length > 3) {
+        // console.log('fontSize', fontSize);
+        return fitText(ctx, text, x, y, width, height, fontSize -1);
+    }
+    
+    var line_y = y + height - fontSize/4;
+    for(var i=lines.length -1; i >= 0; i--) {
+        ctx.fillText(lines[i], x, line_y);
+        line_y -= fontSize * 1.1;
+    }
 }
