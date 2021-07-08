@@ -15,6 +15,8 @@ let download_el = document.getElementById('download');
 let text_submit_btn = document.getElementById('submit_content_btn');
 
 
+
+
 let active = '';
 let isdrawing = false;
 let working =false;
@@ -296,119 +298,11 @@ context.fillText(line, x, y);
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//     let word_lenght = ctx.measureText(content_el);
-//     let word =[];
-//     // ctx.font = "25px Arial";
-//     fitText(ctx, content_el, 50, 150, 400, 300, 200);
-
-// }
-
-
-// function fitText(ctx, text, x, y, width, height, fontSize) {
-//     ctx.font = 'normal ' + fontSize + 'px Times New Roman';
-//     var metrics = ctx.measureText(text);
-    
-//     if (metrics.width <= width) {
-//         ctx.fillText(text, x, y + height - fontSize/4);
-//         return;
-//     }
-    
-//     // Wrap text
-//     var words = text.split(' '),
-//         line = '',
-//         lines = [];
-    
-//     for(var n = 0; n < words.length; n++) {
-//         var testLine = line + words[n] + ' ';
-//         metrics = ctx.measureText(testLine);
-//         if (metrics.width > width && n > 0) {
-//             lines.push(line);
-//             line = words[n] + ' ';  // next line
-//         }
-//         else {
-//             line = testLine;
-//         }
-//     }
-//     lines.push(line);
-//     if (lines.length > 3) {
-//         console.log('fontSize', fontSize);
-//         return fitText(ctx, text, x, y, width, height, fontSize -1);
-//     }
-    
-//     var line_y = y + height - fontSize/4;
-//     for(var i=lines.length -1; i >= 0; i--) {
-//         ctx.fillText(lines[i], x, line_y);
-//         line_y -= fontSize * 1.1;
-//     }
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var maxWidth = 400;
-// var lineHeight = 25;
-// var x = (board.width - maxWidth) / 4;
-// var y = 300;
-// ctx.font = '16pt Calibri';
-// ctx.fillStyle = '#333';
-
-// wrapText(ctx, content_el, x, y, maxWidth, lineHeight);
-// }
-
-
-// function wrapText(context, text, x, y, maxWidth, lineHeight) {
-// var words = text.split(' ');
-// var line = '';
-
-// for(var n = 0; n < words.length; n++) {
-//   var testLine = line + words[n] + ' ';
-  
-//   var metrics = context.measureText(testLine);
-//   var testWidth = metrics.width;
-//   if (testWidth > maxWidth && n > 0) {
-//     context.fillText(line, x, y);
-//     line = words[n] + ' ';
-//     y += lineHeight;
-//   }
-//   else {
-//     line = testLine;
-//   }
-// }
-// context.fillText(line, x, y);
-// }
-
+//uploading file to canvas
+file_el.onchange=(e)=>{
+  let main_file = e.target.files[0];
+  console.log(main_file);
+}
 
 
 
