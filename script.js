@@ -267,8 +267,8 @@ text_submit_btn.onclick=()=>{
    
 var maxWidth = 400;
 var lineHeight = 25;
-var x = (board.width - maxWidth) / 4;
-var y = 300;
+var x = (board.width - maxWidth) / 10;
+var y = 100;
 ctx.font = '16pt Calibri';
 ctx.fillStyle = '#333';
 
@@ -300,10 +300,18 @@ context.fillText(line, x, y);
 
 //uploading file to canvas
 file_el.onchange=(e)=>{
-  let main_file = e.target.files[0];
-  console.log(main_file);
+    let main_file_obj = e.target.files[0];
+    let img_url = URL.createObjectURL(main_file_obj);
+    let img_string = document.createElement('img');
+        img_string.src = img_url;
+        img_string.onload =()=>{
+            imageToCanvas(img_string, board.width/2, board.height/9, 250, 250);
+        }
 }
 
 
+function imageToCanvas(img, x,y,width, height){
+    ctx.drawImage(img, x , y, width, height );
+}
 
 
