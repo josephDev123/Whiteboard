@@ -11,7 +11,7 @@ let eraser_el = document.getElementById('eraser_dropdown');
 let eraser_width_el = document.getElementById('eraser_width');
 let trash_el = document.getElementById('trash');
 let file_el = document.getElementById('file');
-let download_el = document.getElementById('download');
+let download_el = document.querySelector('.fa-download');
 let text_submit_btn = document.getElementById('submit_content_btn');
 
 
@@ -308,6 +308,14 @@ file_el.onchange=(e)=>{
             imageToCanvas(img_string, board.width/2, board.height/9, 250, 250);
         }
 }
+
+//download canvas content
+download_el.onclick =()=>{
+    // e.preventDefault();
+   let canvas_url =board.toDataURL('image/png');
+   document.getElementById('download').href=canvas_url;
+}
+
 
 
 function imageToCanvas(img, x,y,width, height){
